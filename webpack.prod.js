@@ -3,7 +3,7 @@ const common = require("./webpack.common");
 
 module.exports = merge(common, {
   mode: "production",
-  // devtool: "source-map",
+  devtool: "source-map",
   module: {
     rules: [
       {
