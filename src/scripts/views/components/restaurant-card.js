@@ -30,6 +30,8 @@ class RestaurantCard extends HTMLElement {
           overflow: hidden;
           transition: transform 0.3s ease, box-shadow 0.3s ease;
           position: relative;
+          display: flex;
+          flex-direction: column;
         }
 
         .card-item:hover {
@@ -55,14 +57,18 @@ class RestaurantCard extends HTMLElement {
         }
 
         .restaurant-info { 
-          padding: 15px;
+          padding: 20px;
           text-align: left;
+          flex-grow: 1;
+          display: flex;
+          flex-direction: column;
         }
 
         h3 {
-          margin: 0 0 10px;
+          margin: 0 0 12px;
           font-size: 1.4em;
           color: #333;
+          line-height: 1.3;
         }
 
 
@@ -70,20 +76,22 @@ class RestaurantCard extends HTMLElement {
           display: inline-block;
           background-color: #605678;
           color: white;
-          padding: 4px 8px;
+          padding: 6px 10px;
           border-radius: 4px;
           font-weight: bold;
-          margin-bottom: 8px;
+          margin-bottom: 12px;
+          font-size: 0.9em;
         }
 
         .description { 
-          font-size: 0.9em;
+          font-size: 0.95em;
           color: #555;
-          margin-bottom: 10px;
+          margin-bottom: 16px;
           display: -webkit-box;
           -webkit-line-clamp: 3;
           -webkit-box-orient: vertical;
           overflow: hidden;
+          line-height: 1.5;
         }
 
         .detail-link { 
@@ -91,10 +99,15 @@ class RestaurantCard extends HTMLElement {
           background-color: #605678;
           color: white;
           text-decoration: none;
-          padding: 8px 16px;
+          padding: 12px;
           border-radius: 4px;
-          justify-self: flex-end;
           transition: background-color 0.3s ease;
+          min-height: 44px;
+          min-width: 44px;
+          align-items: center;
+          justify-content: center;
+          margin-top: auto;
+          font-weight: bold;
         }
 
         .detail-link:hover {
@@ -103,23 +116,27 @@ class RestaurantCard extends HTMLElement {
 
         .favorite-button {
           position: absolute;
-          top: 10px;
-          right: 10px;
-          background-color: rgba(255, 255, 255, 0.8);
+          top: 12px;
+          right: 12px;
+          background-color: rgba(255, 255, 255, 0.9);
           border: none;
           border-radius: 50%;
-          width: 40px;
-          height: 40px;
+          width: 44px;
+          height: 44px;
           font-size: 24px;
           cursor: pointer;
           display: flex;
           align-items: center;
           justify-content: center;
-          transition: background-color 0.3s ease;
+          transition: background-color 0.3s ease, transform 0.2s ease;
+          min-height: 44px;
+          min-width: 44px;
+          box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
         }
 
         .favorite-button:hover {
           background-color: rgba(255, 255, 255, 1);
+          transform: scale(1.05);
         }
 
         .favorite-button.active {
@@ -130,7 +147,7 @@ class RestaurantCard extends HTMLElement {
       <div class="card-item" id="card-item-${id}">
         <img class="card-image" src="${imageUrl}" alt="${name}" loading="lazy">
         <button class="favorite-button" aria-label="Add to Favorite">♡</button>
-        <p class="location">📍 ${city}</p>  <!-- Update 7 -->
+        <p class="location">📍 ${city}</p> 
         <div class="restaurant-info">
           <h3>${name}</h3>
           <p class="rating">⭐ ${rating}</p>
@@ -148,12 +165,6 @@ class RestaurantCard extends HTMLElement {
     favoriteButton.addEventListener("click", () => {
       this.toggleFavorite();
       console.log("Favorite button clicked");
-    });
-
-    favoriteButton.addEventListener("click", () => {
-      this.toggleFavorite();
-      console.log("Favorite button clicked");
-      idb.addFavorite(this._restaurant);
     });
   }
 

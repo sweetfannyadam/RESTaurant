@@ -61,13 +61,12 @@ class RestaurantDetail extends HTMLElement {
 
         .back-button {
           display: inline-block;
-          padding: 10px 20px;
+          padding: 10px;
           background-color: #605678;
           color: white;
           text-decoration: none;
           border-radius: 4px;
           cursor: pointer;
-          margin-bottom: 20px;
           transition: background-color 0.3s ease;
         }
 
@@ -128,8 +127,8 @@ class RestaurantDetail extends HTMLElement {
           background-color: rgba(255, 255, 255, 0.8);
           border: none;
           border-radius: 50%;
-          width: 40px;
-          height: 40px;
+          min-height: 44px;
+          min-width: 44px;
           font-size: 24px;
           cursor: pointer;
           display: flex;
