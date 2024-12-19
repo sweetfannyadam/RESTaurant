@@ -1,4 +1,5 @@
 import * as idb from "../../data/idb";
+import "./review-form";
 
 class RestaurantDetail extends HTMLElement {
   constructor() {
@@ -19,7 +20,6 @@ class RestaurantDetail extends HTMLElement {
   async checkIsFavorite() {
     try {
       this.isFavorite = await idb.checkFavorite(this._restaurant.id);
-      console.log("isFavorite (after check): ", this.isFavorite);
       this.render();
     } catch (error) {
       console.error("Error checking favorite status:", error);
@@ -166,12 +166,54 @@ class RestaurantDetail extends HTMLElement {
         <ul class="review-list">
           ${customerReviews.map((review) => `<li>${review.name}: ${review.review}</li>`).join("")}
         </ul>
+        <h3>Add a Review</h3>
+          <review-form></review-form>
       </div>
     `;
 
     this.shadow
       .querySelector(".favorite-button")
       .addEventListener("click", () => this.toggleFavorite());
+
+    const reviewForm = this.shadow.querySelector("review-form");
+    reviewForm.addEventListener("submit-review", async (event) => {
+      const { name, review } = event.detail;
+      await this.submitReview(this._restaurant.id, name, review);
+    });
+  }
+
+  async submitReview(restaurantId, name, review) {
+    try {
+      const response = await fetch(
+        "https://restaurant-api.dicoding.dev/review",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            id: restaurantId,
+            name: name,
+            review: review,
+          }),
+        },
+      );
+
+      const result = await response.json();
+      console.log("Review submitted:", result);
+
+      if (!result.error) {
+        // Update the customerReviews with the new list from the API response
+        this._restaurant.customerReviews = result.customerReviews;
+
+        // Re-render the component to show the updated reviews
+        this.render();
+      } else {
+        console.error("Error adding review:", result.message);
+      }
+    } catch (error) {
+      console.error("Error submitting review:", error);
+    }
   }
 
   async toggleFavorite() {
@@ -183,7 +225,6 @@ class RestaurantDetail extends HTMLElement {
         await idb.addFavorite(this._restaurant);
         this.isFavorite = true;
       }
-      console.log("isFavorite (after toggle): ", this.isFavorite);
       this.render();
     } catch (error) {
       console.error("Error toggling favorite status:", error);

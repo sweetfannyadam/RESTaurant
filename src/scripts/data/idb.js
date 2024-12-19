@@ -11,6 +11,7 @@ const dbPromise = openDB(DATABASE_NAME, DATABASE_VERSION, {
 
 // Add a restaurant to the favorites store
 async function addFavorite(restaurant) {
+  console.log("restaurant idb.js: ", restaurant);
   const db = await dbPromise;
   const tx = db.transaction(OBJECT_STORE_NAME, "readwrite");
   try {
@@ -18,7 +19,7 @@ async function addFavorite(restaurant) {
     const existingRestaurant = await tx.store.get(restaurant.id);
     if (existingRestaurant) {
       console.log(`Restaurant ${restaurant.name} is already in favorites.`);
-      return; // Exit the function if it already exists
+      return;
     }
 
     await tx.store.add(restaurant);

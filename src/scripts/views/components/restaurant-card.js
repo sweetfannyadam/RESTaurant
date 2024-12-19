@@ -169,13 +169,16 @@ class RestaurantCard extends HTMLElement {
   }
 
   updateFavoriteButton = (isFavorite) => {
-    console.log("isFavorite: ", isFavorite);
     const favoriteButton = this.shadow.querySelector(".favorite-button");
     if (isFavorite) {
+      console.log("isFavorite true: ", isFavorite);
+
       favoriteButton.textContent = "♥";
       favoriteButton.classList.add("active");
       favoriteButton.setAttribute("aria-label", "Remove from favorites");
     } else {
+      console.log("isFavorite false: ", isFavorite);
+
       favoriteButton.textContent = "♡";
       favoriteButton.classList.remove("active");
       favoriteButton.setAttribute("aria-label", "Add to favorites");
@@ -189,9 +192,9 @@ class RestaurantCard extends HTMLElement {
 
       if (isFavorite) {
         await idb.removeFavorite(restaurantId);
-        console.log(
-          `Restaurant with ID ${restaurantId} removed from favorites`,
-        );
+        // console.log(
+        //   `Restaurant with ID ${restaurantId} removed from favorites`,
+        // );
         this.updateFavoriteButton(false);
 
         if (window.location.hash === "#/favorite") {
@@ -200,7 +203,7 @@ class RestaurantCard extends HTMLElement {
         }
       } else {
         await idb.addFavorite(this._restaurant);
-        console.log(`Restaurant with ID ${restaurantId} added to favorites`);
+        // console.log(`Restaurant with ID ${restaurantId} added to favorites`);
         this.updateFavoriteButton(true);
       }
     } catch (error) {

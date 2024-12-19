@@ -1,14 +1,24 @@
-Feature("Customer Reviews");
+Feature("Add Review Feature");
 
-Before(({ I }) => {
-  I.amOnPage("/#/restaurants"); // Navigate to the restaurants page
-});
+const restaurantId = "rqdv5juczeskfw1e867"; // Set the restaurant ID here
 
-Scenario("adding a customer review", ({ I }) => {
-  I.seeElement(".restaurant-item"); // Ensure there are restaurant items
-  I.click(".restaurant-item:first-child"); // Click on the first restaurant
-  I.fillField("#review-input", "Great food!"); // Fill in the review
-  I.click("#submit-review"); // Submit the review
-  I.see("Review submitted successfully", ".notification"); // Check for success message
-  I.see("Great food!", ".review-item"); // Check if the review appears
+Scenario("User  can submit a review", async ({ I }) => {
+  // Visit the restaurant detail page using the restaurant ID
+  I.amOnPage(`http://localhost:8080/#/detail/${restaurantId}`);
+
+  I.seeElement("restaurant-detail review-form"); // This will wait for the element to appear
+
+  // Fill in the review form
+  I.fillField("restaurant-detail review-form .review-name", "John Doe"); // Adjust the selector as needed
+  I.fillField(
+    "restaurant-detail review-form .review-text",
+    "This restaurant is amazing!",
+  );
+
+  // Submit the review
+  I.click('review-form button[type="submit"]'); // Adjust the selector as needed
+
+  // Verify that the review was added to the list
+  I.see("John Doe", ".review-list"); // Adjust the selector as needed
+  I.see("This restaurant is amazing!", ".review-list"); // Adjust the selector as needed
 });
